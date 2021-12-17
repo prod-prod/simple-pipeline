@@ -8,9 +8,7 @@ if __name__ == "__main__":
                        port_num="3306", user_name="root", passw="123456")
 
     db_mysql.run_query("""
-    create table  if not exists sys.orders
-        (order_id text,
-        created datetime);
+    drop table if exists sys.orders;
     """, True)
 
     db_mysql.close_conn()
@@ -20,9 +18,7 @@ if __name__ == "__main__":
                       port_num="5432", user_name="postgres", passw="mypassword")
 
     db_psql.run_query("""
-    create table if not exists public.orders
-        (order_id text primary key,
-        created timestamp);
+    drop table if exists public.orders;
     """, True)
 
     db_psql.close_conn()

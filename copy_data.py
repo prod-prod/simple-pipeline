@@ -27,12 +27,11 @@ if __name__=="__main__":
     db_source.open_conn(db_name="mysql", host_name="127.0.0.1", port_num="3306", user_name="root",passw="123456")
 
     trans_data = db_source.run_query(extract_query, False)
+    batch_size = 5
 
-    batch_size = 10
     while trans_data > 0:
-        rows = db_source.get_result(extract_query, batch_size)
+        rows = db_source.get_result(batch_size)
         trans_data -= batch_size
-
         load_query = "insert into public.orders values "
         
         for id, created in rows:
@@ -40,8 +39,6 @@ if __name__=="__main__":
         load_query = load_query[:len(load_query)-1] + " "
         load_query += "on conflict on constraint orders_pkey do nothing;"
 
-        # print(load_query)
-    
 
         db_destination.run_query(load_query, True)
     
